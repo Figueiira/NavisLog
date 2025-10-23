@@ -1,0 +1,14 @@
+=========   PROJETO NAVISLOG    ===========
+
+Descrições das atividades do dia 22/10/2025
+
+- Oque foi feito nesta data? 
+
+-- Criação do diretório inicial do projeto
+-- Criação da aplicação Flask
+-- Download e instalção das bibliotecas iniciais
+-- Atualização do diretório para a plataforma de
+versionamento de códigos (GitHub)
+
+Versão inicial: 1.0
+Autor: Tiago Figueira (Gerente de projeto/desenvolvedor).

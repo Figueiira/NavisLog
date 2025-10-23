@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Bem-vindo - NavisLog{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+
+{% block content %}
+<div class="initial-container">
+
+    <!-- Cabeçalho -->
+    <header class="initial-header">
+        <!-- Logo no canto esquerdo -->
+        <div class="logo-header">
+            <img src="{{ url_for('static', filename='images/logotipo.png') }}" alt="Logo">
+        </div>
+
+        <!-- Links centralizados -->
+        <nav class="header-nav">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        </nav>
+    </header>
+
+    <!-- Texto descritivo no canto esquerdo -->
+    <div class="description">
+        <p>
+            Solução digital que conecta todos os agentes da logística portuária. 
+            Reduza falhas, otimize processos e acompanhe cada etapa das suas operações 
+            com transparência e controle.
+        </p>
+    </div>
+
+    <div class="discovery">
+        <a href="{{ url_for('login') }}">EXPLORAR RECURSOS</a>
+    </div>
+
+</div>
+{% endblock %}
