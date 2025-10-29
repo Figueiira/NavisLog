@@ -12,3 +12,14 @@ versionamento de códigos (GitHub)
 
 Versão inicial: 1.0
 Autor: Tiago Figueira (Gerente de projeto/desenvolvedor).
+
+
+descrições das atividades do dia 28/10/2025
+
+- oque foi feito neste dia?
+
+-- inclusão da pasta DOCUMENTACAO na main do diretório
+-- atualização do diretório
+
+versão 1.0.2
+Autor: Antônio Maranguape (desenvolvedor Front-End)
