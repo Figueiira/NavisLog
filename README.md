@@ -23,3 +23,15 @@ Visual Studio Code, Draw.io.
 
 • Infraestrutura: Hospedagem local ou em nuvem (Flask, Heroku, Vercel, Render,
 Hostinger.) 
+
+## 🛠 Instalação
+
+1. Clone o repositório:
+
+```bash
+git clone <seu_repositorio_url>
+cd backend
+cd frontend
+
+npm run dev
+# Windows
