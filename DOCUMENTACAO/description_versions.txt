@@ -23,3 +23,14 @@ descrições das atividades do dia 28/10/2025
 
 versão 1.0.2
 Autor: Antônio Maranguape (desenvolvedor Front-End)
+
+descrições das atividades do dia 02/11/2025
+
+- oque foi feito nesse dia?
+
+-- criação da pasta Matriz_Rastreabilidade
+-- criação e edição da planilha Excel matriz_rastreabilidade
+-- atualização do diretório
+
+versão 1.0.3
+Autor: Tiago Figueira (Gerente de projeto/desenvolvedor).
