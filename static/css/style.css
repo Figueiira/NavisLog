@@ -40,8 +40,8 @@ header {
     left: 0;
     width: 100%;
     height: 60px;
-    background-color: #172b66;
-    color: white;
+    background-color: #ffff;
+    color: #172b66;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,6 +85,7 @@ header {
     position: absolute;
     left: 700px;
     top:15.5px;
+    border: 1px solid #172b66;
 }
 
 /* Logotipo */
@@ -342,8 +343,9 @@ button.logout-btn:hover {
     background: rgba(255,255,255,0.7);
     padding: 15px;
     border-radius: 8px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Poppins;
     font-weight: 500;
+    font-size: 24px;
 }
 
 .discovery {
@@ -351,31 +353,31 @@ button.logout-btn:hover {
     color: #fff;
     background-color: #5caba3;
     width: 200px;
-    height: 40px; /* define uma altura para centralização vertical */
+    height: 40px; 
     position: absolute;
-    top: 350px;
+    top: 445px;
     left: 120px;
-    padding: 0; /* remove padding desnecessário */
+    padding: 0; 
     
-    display: flex;           /* ativa flexbox */
-    justify-content: center; /* centraliza horizontalmente */
-    align-items: center;     /* centraliza verticalmente */
+    display: flex;          
+    justify-content: center; 
+    align-items: center;     
     
-    text-align: center;      /* garante centralização do texto */
-    border-radius: 100px;      /* opcional, deixa o box mais bonito */
+    text-align: center;      
+    border-radius: 100px;      
 }
 
 .discovery a {
-    text-decoration: none; /* remove o sublinhado */
-    color: #fff;            /* define a cor do texto */
-    font-weight: bold;      /* opcional: deixa mais chamativo */
-    font-size: 1rem;        /* ajusta o tamanho do texto */
-    display: inline-block;  /* garante que padding e centralização funcionem */
-    width: 100%;            /* ocupa toda a largura do container .discovery */
-    text-align: center;     /* centraliza o texto */
+    text-decoration: none; 
+    color: #fff;            
+    font-weight: bold;    
+    font-size: 1rem;        
+    display: inline-block;  
+    width: 100%;            
+    text-align: center;     
 }
 
 .discovery a:hover {
-    color: #1e3743;           /* muda a cor quando o mouse passa por cima */
-    text-decoration: none; /* garante que não apareça sublinhado */
+    color: #1e3743;           
+    text-decoration: none; 
 }
