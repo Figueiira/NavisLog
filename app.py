@@ -8,7 +8,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Define a chave secreta da aplicação
-app.secret_key = os.getenv("SECRET_KEY") or "chave_de_teste_123"
+app.secret_key = os.getenv("SECRET_KEY") 
 
 # Página inicial
 @app.route('/')
