@@ -8,7 +8,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Define a chave secreta da aplicação
-app.secret_key = os.getenv("SECRET_KEY") 
+app.secret_key = os.getenv("SECRET_KEY")
 
 # Página inicial
 @app.route('/')
@@ -34,15 +34,22 @@ def login():
 # Página principal (somente para logados)
 @app.route('/index')
 def index():
-    if 'usuario' not in session:  
+    if 'usuario' not in session:
         return redirect(url_for('login'))
     return render_template('index.html', usuario=session['usuario'])
+
+# Página de configurações (somente para logados)
+@app.route('/config')
+def config():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+    return render_template('config.html', usuario=session['usuario'])
 
 # Rota de logout
 @app.route('/logout')
 def logout():
     session.pop('usuario', None)
-    return redirect(url_for('home')) 
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
