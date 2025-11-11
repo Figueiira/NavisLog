@@ -1,0 +1,126 @@
+{% extends "base.html" %} {% block title %}Sobre Nós - NavisLog{% endblock %} {%
+block content %}
+
+<!-- Header (Cabeçalho) -->
+<header>
+  <div class="logotipo">
+    <img
+      src="{{ url_for('static', filename='images/logotipo.png') }}"
+      alt="Logo"
+    />
+  </div>
+  <div class="nome">NavisLog</div>
+  <div class="search-bar">
+    <input type="search" name="search-bar" id="sb" value="⌕ " />
+  </div>
+  <div class="profile" onclick="toggleProfile()">🪪</div>
+</header>
+
+<!-- Menu lateral (Sidebar) -->
+<div class="sidebar" id="sidebar">
+  <a href="{{ url_for('index') }}">🏠 Início</a>
+  <!-- Sugestão: aponte para sua rota 'index' -->
+  <a href="#">📦 Pedidos</a>
+  <a href="#">🚚 Entregas</a>
+  <a href="{{ url_for('info') }}">📊 Relatórios</a>
+  <a href="{{ url_for('configuracoes') }}">⚙️ Configurações</a>
+  <a href="{{ url_for('ajuda') }}">🛠️ Suporte</a>
+  <a href="{{ url_for('sobre') }}">ℹ️ Sobre</a>
+  <!-- Sugestão: aponte para a nova rota 'sobre' -->
+  <a href="{{ url_for('logout') }}">🚪 Sair</a>
+</div>
+
+<div class="main">
+  <div class="content-page-wrapper">
+    <h1>Sobre o NavisLog: Revolucionando a Logística Portuária Brasileira</h1>
+
+    <h2>Nossa Missão</h2>
+    <p>
+      O NavisLog nasceu com uma missão clara:
+      <strong
+        >resolver os gargalos históricos da logística portuária no Brasil
+        através da tecnologia.</strong
+      >
+    </p>
+    <p>
+      Nosso objetivo é ser a plataforma digital central que impulsiona a
+      eficiência das operações de carga no país. Entendemos que o setor
+      portuário é a espinha dorsal do comércio nacional e internacional, mas ele
+      não pode mais operar com base em processos manuais, burocráticos e
+      desconectados.
+    </p>
+    <p>
+      Para isso, desenvolvemos uma plataforma unificada, acessível via web e
+      dispositivos móveis, focada em otimizar toda a cadeia logística. Atuamos
+      para aumentar drasticamente a eficiência operacional, reduzir falhas
+      humanas que geram custos e agilizar a comunicação em tempo real entre
+      todos os diferentes agentes do processo, desde o transportador até a
+      autoridade portuária.
+    </p>
+    <p>
+      Acreditamos que, ao promover uma integração centralizada e segura dos
+      dados, o NavisLog não é apenas uma ferramenta de gerenciamento, mas um
+      agente de transformação para fortalecer a competitividade logística
+      brasileira.
+    </p>
+
+    <h2>O Desafio do Setor</h2>
+    <p>
+      O setor portuário é vital para o comércio, mas ainda enfrenta desafios
+      crônicos que geram altos custos, atrasos e ineficiência:
+    </p>
+    <!-- Usamos uma lista <ul> para melhor semântica e leitura -->
+    <ul>
+      <li>Processos manuais e burocráticos que consomem tempo e recursos.</li>
+      <li>
+        Falta de integração entre operadores, transportadores e autoridades.
+      </li>
+      <li>
+        Baixa rastreabilidade e visibilidade durante a movimentação de cargas.
+      </li>
+      <li>Falhas de comunicação que resultam em operações desalinhadas.</li>
+    </ul>
+
+    <h2>A Solução NavisLog</h2>
+    <p>
+      Nascemos para resolver esses problemas de frente. Nossa plataforma promove
+      a integração centralizada e segura dos dados, oferecendo funcionalidades
+      essenciais para a operação moderna:
+    </p>
+    <ul>
+      <li>
+        <strong>Agendamento Eficiente:</strong> Otimiza o fluxo de veículos e
+        docas, reduzindo filas e o tempo de espera para carga e descarga.
+      </li>
+      <li>
+        <strong>Rastreabilidade e Monitoramento:</strong> Oferece visibilidade
+        total da movimentação da carga, permitindo tomadas de decisão baseadas
+        em dados.
+      </li>
+      <li>
+        <strong>Comunicação Ágil:</strong> Conecta todos os agentes do processo
+        em um só lugar, garantindo que a informação certa chegue à pessoa certa
+        no momento certo.
+      </li>
+    </ul>
+    <p>
+      Com o NavisLog, reduzimos falhas humanas, agilizamos operações e trazemos
+      a transformação digital necessária para o futuro do setor portuário.
+    </p>
+  </div>
+  <!-- Fim do .content-page-wrapper -->
+</div>
+<!-- Fim do .main -->
+<footer class="main-footer">
+  <div class="footer-content">
+    <span title="E-mail para contato"
+      >Email para contato: contato@navislog.com</span
+    >
+    <span title="CNPJ">CNPJ: 56.216.638/0001-00</span>
+    <span title="Telefone para contato"
+      >Telefone para contato: (92) 9 9999-9999</span
+    >
+  </div>
+</footer>
+
+{% endblock %}

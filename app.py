@@ -52,6 +52,13 @@ def ajuda():
         return redirect(url_for('login'))
     return render_template('suporte.html', usuario=session['usuario'])
 
+#PÁGINA PARA O USUÁRIO SABER MAIS SOBRE O SISTEMA ("SOBRE NÓS")
+@app.route('/sobre')
+def sobre():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+    return render_template('sobre.html', usuario=session['usuario'])
+
 #PÁGINA DE ACESSO AOS RELATÓRIOS
 @app.route('/relatorio')
 def info():
