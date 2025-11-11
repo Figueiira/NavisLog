@@ -40,10 +40,24 @@ def index():
 
 # Página de configurações (somente para logados)
 @app.route('/config')
-def config():
+def configuracoes():
     if 'usuario' not in session:
         return redirect(url_for('login'))
     return render_template('config.html', usuario=session['usuario'])
+
+#PÁGINA PARA O USUÁRIO ENTRAR EM CONTATO COM O SUPORTE DA NAVISLOG
+@app.route('/suporte')
+def ajuda():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+    return render_template('suporte.html', usuario=session['usuario'])
+
+#PÁGINA DE ACESSO AOS RELATÓRIOS
+@app.route('/relatorio')
+def info():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+    return render_template('relatorios.html', usurio=session['usuario'])
 
 # Rota de logout
 @app.route('/logout')

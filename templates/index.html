@@ -17,9 +17,9 @@
     <a href="#">🏠 Início</a>
     <a href="#">📦 Pedidos</a>
     <a href="#">🚚 Entregas</a>
-    <a href="#">📊 Relatórios</a>
-    <a href="{{ url_for('config') }}">⚙️ Configurações</a>
-    <a href="#">🛠️ Suporte</a>
+    <a href="{{url_for('info')}}">📊 Relatórios</a>
+    <a href="{{ url_for('configuracoes') }}">⚙️ Configurações</a>
+    <a href="{{ url_for('ajuda') }}">🛠️ Suporte</a>
     <a href="#">ℹ️ Sobre</a>
     <a href="{{ url_for('logout') }}">🚪 Sair</a>
 </div>
@@ -27,16 +27,28 @@
     <!-- Painel de Containers -->
     
     <div class="main">
-        <div class="card card1">A
+        <div class="card card1">
             <input type="button" value="Acessar Gráficos" class="ip-button1">
         </div>
 
-        <div class="card card2">B
-
+        <div class="card card2">
+            <input type="button" value="Cadastrar Embarcação" class="ip-button1">
         </div>
 
-        <div class="card card3">C
+        <div class="card card3">
+            <input type="button" value="Agendar Atracação" class="ip-button1">
+        </div>
 
+        <div class="card card4">
+            <input type="button" value="Agendar desatracação" class="ip-button1">
+        </div>
+
+        <div class="card card5">
+            <input type="button" value="Controle de pedidos" class="ip-button1">
+        </div>
+
+        <div class="card card3">
+            <input type="button" value="controle de cargas" class="ip-button1">
         </div>
     </div>
 
