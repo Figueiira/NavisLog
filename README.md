@@ -12,7 +12,7 @@ Visual Studio Code, Draw.io, Canva, Pinterest.
 • Linguagens: Python, CSS, HTML, JavaScript
 
 
-• Gerenciamento: Trello
+• Gerenciamento: EQUIPE NAVISLOG.
 
 
 • Versionamento e Repositórios: Git e Git Hub
