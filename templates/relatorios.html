@@ -1,17 +1,260 @@
 {% extends "base.html" %}
-{% block title %}Bem-vindo - NavisLog{% endblock %}
+{% block title %}Relatórios Portuários - NavisLog{% endblock %}
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 {% block content %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatórios</title>
-</head>
-<body>
-    <h1>PÁGINA DE RELATÓRIOS</h1>
-</body>
-</html>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+<style>
+    /* Centraliza o dashboard */
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* CARD PADRÃO */
+    .card-custom {
+        background: #1e3743;
+        color: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 25px;
+        height: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    /* Cards menores de resumo */
+    .summary-card {
+        height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Área de gráficos */
+    .chart-area {
+        height: 230px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Ajustes EXTRAS para os cards finais */
+    .card-spaced {
+        padding-top: 35px !important;
+        padding-bottom: 30px !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .dashboard-title {
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
+        cursor: pointer;
+    }
+</style>
+
+<div class="dashboard-container mt-4">
+
+    <h2 class="dashboard-title mb-4">📊 Relatórios Portuários - NavisLog</h2>
+
+    <!-- =================== CARDS DE RESUMO =================== -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+            <div class="card-custom summary-card text-center">
+                <h6>Navios no Mês</h6>
+                <h2 class="text-primary">42</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card-custom summary-card text-center">
+                <h6>Carga Movimentada</h6>
+                <h2 class="text-success">182 mil t</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card-custom summary-card text-center">
+                <h6>Tempo Médio</h6>
+                <h2 class="text-warning">18h</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card-custom summary-card text-center">
+                <h6>Berços Ocupados</h6>
+                <h2 class="text-danger">67%</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- =================== GRÁFICOS =================== -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6">
+            <div class="card-custom">
+                <h5 class="text-center mb-3">Movimentação de Cargas</h5>
+                <div class="chart-area">
+                    <canvas id="graficoMovCarga"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card-custom">
+                <h5 class="text-center mb-3">Tipos de Navios</h5>
+                <div class="chart-area">
+                    <canvas id="graficoNavios"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card-custom">
+                <h5 class="text-center mb-3">Ocupação dos Berços</h5>
+                <div class="chart-area">
+                    <canvas id="graficoBercos"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card-custom">
+                <h5 class="text-center mb-3">Produtividade por Terminal</h5>
+                <div class="chart-area">
+                    <canvas id="graficoProdutividade"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- =================== PRÓXIMAS ATRACAÇÕES =================== -->
+    <div class="card-custom card-spaced mb-4">
+        <h5 class="text-center mb-3">📅 Próximas Atracações (ETA)</h5>
+
+        <table class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th>Navio</th>
+                    <th>Tipo</th>
+                    <th>ETA</th>
+                    <th>Operação</th>
+                    <th>Berço</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ever Glory</td>
+                    <td>Conteiner</td>
+                    <td>13:40</td>
+                    <td>Descarga</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Pacific Grain</td>
+                    <td>Graneleiro</td>
+                    <td>16:10</td>
+                    <td>Carga</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Ocean Fuel</td>
+                    <td>Petroleiro</td>
+                    <td>19:00</td>
+                    <td>Descarga</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- =================== ALERTAS =================== -->
+     
+    <div class="card-custom card-spaced mb-3" style="padding-bottom: 10px;">
+        <h5 class="text-center mb-5 text-danger">⚠ Alertas Operacionais</h5>
+
+        <ul class="list-group">
+            <li class="list-group-item">🔴 Berço 2 acima de 90% de ocupação.</li>
+            <li class="list-group-item">🟡 Maré baixa prevista para 18h.</li>
+            <li class="list-group-item">🔧 Guindaste do Terminal 4 em manutenção.</li>
+        </ul>
+    </div>
+
+</div>
+
+<!-- =============== JS GRÁFICOS =============== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Movimentação de Cargas
+    new Chart(document.getElementById("graficoMovCarga"), {
+        type: "line",
+        data: {
+            labels: ["Jan","Fev","Mar","Abr","Mai","Jun"],
+            datasets: [{
+                label: "Toneladas",
+                data: [20000,24000,28000,26000,31000,33000],
+                borderWidth: 3
+            }]
+        }
+    });
+
+    // Tipos de Navios com legenda horizontal
+    new Chart(document.getElementById("graficoNavios"), {
+        type: "pie",
+        data: {
+            labels: ["Conteiner", "Graneleiro", "Petroleiro", "Carga Geral"],
+            datasets: [{
+                data: [18, 10, 7, 5]
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: "bottom",
+                    labels: {
+                        padding: 15,
+                        boxWidth: 18,
+                        usePointStyle: true
+                    }
+                }
+            }
+        }
+    });
+
+    // Ocupação dos Berços
+    new Chart(document.getElementById("graficoBercos"), {
+        type: "bar",
+        data: {
+            labels: ["Berço 1","Berço 2","Berço 3","Berço 4","Berço 5"],
+            datasets: [{
+                label: "% Ocupação",
+                data: [80,90,45,70,55],
+                borderWidth: 1
+            }]
+        }
+    });
+
+    // Produtividade
+    new Chart(document.getElementById("graficoProdutividade"), {
+        type: "bar",
+        data: {
+            labels: ["Terminal 1","Terminal 2","Terminal 3","Terminal 4"],
+            datasets: [{
+                label: "Ton/h",
+                data: [1200,900,1500,600],
+                borderWidth: 1
+            }]
+        }
+    });
+</script>
+
 {% endblock %}

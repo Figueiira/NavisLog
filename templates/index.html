@@ -2,58 +2,156 @@
 {% block title %}Início - NavisLog{% endblock %}
 
 {% block content %}
+
 <header>
     <div class="logotipo">
         <img src="{{ url_for('static', filename='images/logotipo.png') }}" alt="Logo" />
     </div>
+
     <div class="nome">NavisLog</div>
-    <div class="search-bar"><input type="search" name="search-bar" id="sb" value="⌕ ">
+
+    <div class="search-bar">
+        <input type="search" name="search-bar" id="sb" placeholder="⌕ Pesquisar..." autocomplete="off">
     </div>
-    <div class="profile" onclick="toggleProfile()">🪪</div>
+
+    <div class="profile" onclick="toggleProfile()">
+        <i class="fa-solid fa-user"></i>
+    </div>
 </header>
 
 <!-- Menu lateral -->
 <div class="sidebar" id="sidebar">
     <a href="#">🏠 Início</a>
-    <a href="#">📦 Pedidos</a>
+    <a href="{{ url_for('operacoes') }}">📦 Operações</a>
     <a href="#">🚚 Entregas</a>
-    <a href="{{url_for('info')}}">📊 Relatórios</a>
+    <a href="{{ url_for('info') }}">📊 Relatórios</a>
     <a href="{{ url_for('configuracoes') }}">⚙️ Configurações</a>
     <a href="{{ url_for('ajuda') }}">🛠️ Suporte</a>
     <a href="{{ url_for('sobre') }}">ℹ️ Sobre nós</a>
     <a href="{{ url_for('logout') }}">🚪 Sair</a>
 </div>
 
-    <!-- Painel de Containers -->
-    
-    <div class="main">
-        <div class="card card1">
-            <input type="button" value="Acessar Gráficos" class="ip-button1">
-        </div>
+<!-- Painel principal -->
+<div class="main">
 
-        <div class="card card2">
-            <input type="button" value="Cadastrar Embarcação" class="ip-button1">
-        </div>
+    <!-- Card 1 -->
+    <div class="card card1" id="graficos">
+        <img src="{{ url_for('static', filename='images/relatorios.jpg') }}" class="card-img" style="width:340px ; height: 300px; border-radius: 12px;">
+        <a href="{{ url_for('info') }}" class="ip-button1">Acessar Gráficos NavisLog</a>
+    </div>
 
-        <div class="card card3">
-            <input type="button" value="Agendar Atracação" class="ip-button1">
-        </div>
+    <!-- Card 2 -->
+    <div class="card card2" id="cad_embarcacao">
+        <img src="{{ url_for('static', filename='images/cad navios.jpg') }}" class="card-img" style="width:340px ; height: 300px; border-radius: 12px;">
+        <a href="{{ url_for('cad') }}" class="ip-button1">Cadastrar Embarcação NavisLog</a>
+    </div>
 
-        <div class="card card4">
-            <input type="button" value="Agendar desatracação" class="ip-button1">
-        </div>
 
-        <div class="card card5">
-            <input type="button" value="Controle de pedidos" class="ip-button1">
-        </div>
+    <!-- Card 3 -->
+    <div class="card card3" id="agendar_embarcacao">
+         <img src="{{ url_for('static', filename='images/navio atracado.jpg') }}" class="card-img" style="width:340px ; height: 300px; border-radius: 12px;">
+        <a href="{{ url_for('operacoes') }}" class="ip-button1">Agendar Atracação NavisLog</a>
+    </div>
 
-        <div class="card card3">
-            <input type="button" value="controle de cargas" class="ip-button1">
-        </div>
+    <!-- Card 4 -->
+    <div class="card card4" id="agendar_desatracacao">
+        <img src="{{ url_for('static', filename='images/des navios.jpg') }}" class="card-img" style="width:340px ; height: 300px; border-radius: 12px;">
+        <a href="{{ url_for('operacoes') }}" class="ip-button1">Agendar Desatracação NavisLog</a>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="card card5" id="controle_pedidos">
+        <img src="{{ url_for('static', filename='images/funcionario.png') }}" class="card-img" style="width:340px ; height: 300px; border-radius: 12px;">
+        <a href="{{ url_for('operacoes') }}" class="ip-button1">Controle de Pedidos NavisLog</a>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="card card6" id="controle_cargas">
+         <img src="{{ url_for('static', filename='images/funcionaria.png') }}" class="card-img" style="width:340px ; height: 300px; border-radius: 12px;">
+        <a href="{{ url_for('operacoes') }}" class="ip-button1">Controle de Cargas NavisLog</a>
     </div>
 
 </div>
 
+<script>
+const barra = document.getElementById("sb");
+
+function buscar(texto, redirecionar=false) {
+    const t = texto.toLowerCase().trim();
+
+    // Mapa das palavras → ID do card
+    const mapaIds = {
+        "gráficos": "graficos",
+        "graficos": "graficos",
+
+        "cadastro": "cad_embarcacao",
+        "cadastrar": "cad_embarcacao",
+        "embarcação": "cad_embarcacao",
+        "embarcacao": "cad_embarcacao",
+
+        "atracação": "agendar_embarcacao",
+        "atracacao": "agendar_embarcacao",
+
+        "desatracação": "agendar_desatracacao",
+        "desatracacao": "agendar_desatracacao",
+
+        "pedidos": "controle_pedidos",
+        "controle pedidos": "controle_pedidos",
+
+        "cargas": "controle_cargas",
+        "controle cargas": "controle_cargas"
+    };
+
+    // Mapa das palavras → rotas Flask
+    const mapaRotas = {
+        "gráficos": "{{ url_for('info') }}",
+        "graficos": "{{ url_for('info') }}",
+
+        "cadastro": "{{ url_for('cad') }}",
+        "cadastrar": "{{ url_for('cad') }}",
+        "embarcação": "{{ url_for('cad') }}",
+        "embarcacao": "{{ url_for('cad') }}",
+
+        "atracação": "{{ url_for('operacoes') }}",
+        "atracacao": "{{ url_for('operacoes') }}",
+
+        "desatracação": "{{ url_for('operacoes') }}",
+        "desatracacao": "{{ url_for('operacoes') }}",
+
+        "pedidos": "{{ url_for('operacoes') }}",
+        "controle pedidos": "{{ url_for('operacoes') }}",
+
+        "cargas": "{{ url_for('operacoes') }}",
+        "controle cargas": "{{ url_for('operacoes') }}"
+    };
+
+    // Se encontrou card → scroll
+    if (mapaIds[t]) {
+        const alvo = document.getElementById(mapaIds[t]);
+        if (alvo) {
+            alvo.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+    }
+
+    // Se apertou Enter → redireciona
+    if (redirecionar && mapaRotas[t]) {
+        window.location.href = mapaRotas[t];
+    }
+}
+
+// Quando DIGITA → apenas scroll
+barra.addEventListener("input", function () {
+    buscar(this.value, false);
+});
+
+// Quando aperta ENTER → redireciona
+barra.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        buscar(this.value, true);
+    }
+});
+</script>
 
 
 {% endblock %}

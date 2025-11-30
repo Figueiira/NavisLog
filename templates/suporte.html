@@ -1,17 +1,114 @@
 {% extends "base.html" %}
-{% block title %}Bem-vindo - NavisLog{% endblock %}
+{% block title %}Suporte - NavisLog{% endblock %}
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 {% block content %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suporte NavisLog</title>
-</head>
-<body>
-    <h1>PÁGINA DE SUPORTE</h1>
-</body>
-</html>
+
+<div class="support-container">
+
+    <h1 class="support-title">Suporte Técnico - NavisLog</h1>
+    <p class="support-subtitle">
+        Preencha o formulário abaixo para que nossa equipe possa ajudar você da melhor forma.
+    </p>
+
+    <form action="{{ url_for('enviar_suporte') }}" method="POST" enctype="multipart/form-data" class="support-form">
+
+        <label>Nome completo *</label>
+        <input type="text" name="nome" required>
+
+        <label>Email *</label>
+        <input type="email" name="email" required>
+
+        <label>Telefone (opcional)</label>
+        <input type="tel" name="telefone">
+
+        <label>Assunto *</label>
+        <input type="text" name="assunto" required>
+
+        <label>Tipo de problema *</label>
+        <select name="tipo" required>
+            <option value="" disabled selected>Selecione</option>
+            <option>Erro no sistema</option>
+            <option>Problema de login</option>
+            <option>Falha no banco de dados</option>
+            <option>Dúvida sobre funcionalidades</option>
+            <option>Problemas com relatórios</option>
+            <option>Outro</option>
+        </select>
+
+        <label>Nível de prioridade *</label>
+        <select name="prioridade" required>
+            <option value="baixa">Baixa</option>
+            <option value="media">Média</option>
+            <option value="alta">Alta</option>
+        </select>
+
+        <label>Descreva detalhadamente o problema *</label>
+        <textarea name="descricao" rows="6" required></textarea>
+
+        <label>Anexar arquivo, você pode enviar uma print da sua tela (Opcional)</label>
+        <input type="file" name="arquivo" accept="image/*, .pdf, .txt">
+
+        <button type="submit" class="support-btn">Enviar solicitação</button>
+
+    </form>
+
+</div>
+
+<style>
+    .support-container {
+        width: 60%;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0px 0px 12px rgba(0,0,0,0.1);
+    }
+
+    .support-title {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .support-subtitle {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #555;
+    }
+
+    .support-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    input, select, textarea {
+        padding: 10px;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .support-btn {
+        margin-top: 20px;
+        padding: 12px;
+        font-size: 18px;
+        background-color: #2869ff;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .support-btn:hover {
+        background-color: #1a4fcc;
+    }
+</style>
+
 {% endblock %}
