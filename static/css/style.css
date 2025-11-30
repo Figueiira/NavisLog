@@ -146,6 +146,27 @@ header .logotipo img {
   text-align: center;
 }
 
+/* =========== estilização dos botões dos cards dentro do index.html ============== */
+
+.ip-button1 {
+    display: block;
+    width: 100%;
+    padding: 0px 0px;
+    background: #0066ff;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.ip-button1:hover {
+    background: #004bcc;
+}
+
+
 /* ======== Botão Sair ======== */
 button.logout-btn {
   padding: 10px 20px;
@@ -244,29 +265,31 @@ button.logout-btn:hover {
   flex-wrap: wrap;
   gap: 20px;
   padding: 20px;
+
 }
 
 .card {
   background-color: #f2f2f2;
   color: #1e3743;
   width: 340px;
-  height: 280px;
+  height: 300px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   position: relative;
+  text-align: center;
 }
 
 .ip-button1 {
   display: block;
-  width: 150px;
-  height: 35px;
+  width: 180px;
+  height: 45px;
   border-radius: 10px;
   background-color: #2c4b58;
   color: #fff;
   border: none;
   cursor: pointer;
   position: absolute;
-  bottom: 20px;
+  bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
   transition: background 0.3s ease;
