@@ -3,7 +3,7 @@ Navis Log é um Software web que tem como principal objetivo auxiliar as tarefas
 
 
 • Ferramentas de Desenvolvimento: Figma, SQLITE3, MySQL-WorkBench,
-Visual Studio Code, Draw.io.
+Visual Studio Code, Draw.io, Canva, Pinterest.
 
 
 • Frameworks: React, Flask.
