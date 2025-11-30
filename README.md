@@ -9,7 +9,7 @@ Visual Studio Code, Draw.io.
 • Frameworks: React, Flask.
 
 
-• Linguagens: Python, CSS, HTML, TypeScript, JavaScript
+• Linguagens: Python, CSS, HTML, JavaScript
 
 
 • Gerenciamento: Trello
