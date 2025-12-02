@@ -1,20 +1,361 @@
 {% extends "base.html" %}
-{% block title %}Bem-vindo - NavisLog{% endblock %}
+{% block title %}Operações - NavisLog{% endblock %}
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operações</title>
-</head>
-<body>
-    
-    <h1>PAGINA DE OPERAÇÕES</h1>
+<header>
+    <div class="logotipo">
+        <a href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='images/logotipo.png') }}" alt="Logo" />
+        </a>
+    </div>
 
-</body>
-</html>
+    <div class="nome" style="margin-top: 6px;">Painel NavisLog</div>
+</header>
+<br><br>
+
+<div class="card_principal">
+
+    <div class="container">
+        <h1 class="page-title" style="color:#e0e0e0 ; margin-top: 15px;">Painel de Operações Integrado</h1>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab(event, 'atracacoes')">Atracações</button>
+            <button class="tab-button" onclick="openTab(event, 'desatracacoes')">Desatracações</button>
+            <button class="tab-button" onclick="openTab(event, 'cargas')">Cargas</button>
+            <button class="tab-button" onclick="openTab(event, 'pedidos')" style="background-color: #d35400;">Central de Pedidos (Aprovação)</button>
+            <button class="tab-button" onclick="openTab(event, 'entregas')">Entregas</button>
+            <button class="tab-button" onclick="openTab(event, 'bercos')">Ocupação de Berços</button>
+        </div>
+
+        <div id="atracacoes" class="tab-content active">
+            <h2>Solicitar Atracação</h2>
+            <form id="form-atracacoes">
+                <input type="text" id="nomeEmbarcacao" placeholder="Nome da embarcação" required>
+                <input type="datetime-local" id="dataHoraAtracacao" required>
+                <button type="submit">Solicitar Agendamento</button>
+            </form>
+            <table id="table-atracacoes">
+                <thead><tr><th>ID</th><th>Embarcação</th><th>Data/Hora</th><th>Status</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="desatracacoes" class="tab-content">
+            <h2>Solicitar Desatracação</h2>
+            <form id="form-desatracacoes">
+                <input type="text" id="nomeEmbarcacaoDes" placeholder="Nome da embarcação" required>
+                <input type="datetime-local" id="dataHoraDesatracacao" required>
+                <button type="submit">Solicitar Saída</button>
+            </form>
+            <table id="table-desatracacoes">
+                <thead><tr><th>ID</th><th>Embarcação</th><th>Data/Hora</th><th>Status</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="cargas" class="tab-content">
+            <h2>Registro de Cargas</h2>
+            <form id="form-cargas">
+                <input type="text" id="tipoCarga" placeholder="Tipo de carga" required>
+                <input type="number" id="quantidadeCarga" placeholder="Quantidade" required>
+                <button type="submit">Registrar Carga</button>
+            </form>
+            <table id="table-cargas">
+                <thead><tr><th>ID</th><th>Tipo</th><th>Quantidade</th><th>Status</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="pedidos" class="tab-content">
+            <h2 style="color: #e67e22;">Gerenciamento de Pedidos e Solicitações</h2>
+            <div style="margin-bottom: 15px;">
+                <button onclick="filterOrders('Todos')">Todos</button>
+                <button onclick="filterOrders('Pendente')">Pendentes</button>
+                <button onclick="filterOrders('Aprovado')">Aprovados</button>
+            </div>
+            <table id="table-pedidos">
+                <thead>
+                    <tr><th>ID Pedido</th><th>Tipo Operação</th><th>Detalhes (Origem)</th><th>Status Atual</th><th>Ações de Gerência</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="entregas" class="tab-content">
+            <h2>Entregas</h2>
+            <form id="form-entregas">
+                <input type="text" id="numeroPedidoEntrega" placeholder="Número do pedido" required>
+                <input type="datetime-local" id="dataHoraEntrega" required>
+                <button type="submit">Registrar entrega</button>
+            </form>
+            <table id="table-entregas">
+                <thead><tr><th>Pedido</th><th>Data/Hora</th><th>Status</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="bercos" class="tab-content">
+            <h2>Ocupação de Berços</h2>
+            <table id="table-bercos">
+                <thead>
+                    <tr><th>Berço</th><th>Embarcação</th><th>Status</th><th>Ações</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+<style>
+body { background-color: #1a1a2e; color: #e0e0e0; font-family: 'Arial', sans-serif; margin: 0; padding: 0; }
+.card_principal { background-color: transparent; width:100%; min-height: 100vh; padding: 30px; display: flex; flex-direction: column; align-items: center; }
+.container { max-width: 950px; width: 100%; margin: 0 auto; background-color: #1a1a2e; padding-bottom: 200px; border-radius: 5%; margin-top: 20px;}
+.page-title { text-align: center; margin-bottom: 40px; color: #2c4b58; }
+.tabs { display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; gap: 8px; }
+.tab-button { padding: 10px 20px; cursor: pointer; border: none; background: #2c4b58; border-radius: 8px; color: white; font-weight: bold; transition: 0.3s; }
+.tab-button.active { background: #1a3742; box-shadow: 0 0 10px rgba(0,255,255,0.2); border: 1px solid #3a4b57; }
+.tab-content { display: none; margin-top: 20px; text-align: center; animation: fadeIn 0.5s; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+form { margin-bottom: 25px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+form input { padding: 8px; width: 200px; border: 1px solid #ccc; border-radius: 5px; text-align: center; }
+form button { padding: 8px 20px; background: #2c4b58; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+form button:hover { background: #16a085; }
+table { width: 100%; border-collapse: collapse; margin-top: 15px; color: #e0e0e0; background: #223a45; }
+th, td { border: 1px solid #3a4b57; padding: 12px; text-align: center; }
+th { background-color: #2c4b58; color: white; }
+tbody tr:hover { background-color: #2c3e50; }
+.status-pendente { color: #f39c12; font-weight: bold; }
+.status-aprovado { color: #2ecc71; font-weight: bold; }
+.status-rejeitado { color: #e74c3c; font-weight: bold; }
+</style>
+
+<script>
+// ======================
+// 1. CONFIGURAÇÃO DE DATAS (NOVO CÓDIGO)
+// ======================
+function bloquearDatasPassadas() {
+    // Pega a data e hora atual
+    const agora = new Date();
+    // Ajusta o fuso horário para garantir que não bloqueie o dia atual erroneamente
+    agora.setMinutes(agora.getMinutes() - agora.getTimezoneOffset());
+    // Formata para o padrão exigido pelo input datetime-local: YYYY-MM-DDTHH:MM
+    const dataMinima = agora.toISOString().slice(0, 16);
+
+    // Aplica o atributo 'min' nos campos de data
+    const inputsData = ['dataHoraAtracacao', 'dataHoraDesatracacao', 'dataHoraEntrega'];
+    inputsData.forEach(id => {
+        const elemento = document.getElementById(id);
+        if (elemento) {
+            elemento.min = dataMinima;
+        }
+    });
+}
+
+// ======================
+// 2. BANCO DE DADOS EM MEMÓRIA
+// ======================
+let db = {
+    atracacoes: [],
+    desatracacoes: [],
+    cargas: [],
+    entregas: [],
+    bercos: [
+        { id: 1, nome: 'Berço 1', ocupante: '-', status: 'Disponível' },
+        { id: 2, nome: 'Berço 2', ocupante: '-', status: 'Disponível' },
+        { id: 3, nome: 'Berço 3', ocupante: '-', status: 'Disponível' },
+        { id: 4, nome: 'Berço 4', ocupante: '-', status: 'Disponível' },
+        { id: 5, nome: 'Berço 5', ocupante: '-', status: 'Disponível' },
+        { id: 6, nome: 'Berço 6', ocupante: '-', status: 'Disponível' },
+        { id: 7, nome: 'Berço 7', ocupante: '-', status: 'Disponível' },
+        { id: 8, nome: 'Berço 8', ocupante: '-', status: 'Disponível' },
+        { id: 9, nome: 'Berço 9', ocupante: '-', status: 'Disponível' },
+        { id: 10, nome: 'Berço 10', ocupante: '-', status: 'Disponível' }
+    ]
+};
+
+let ids = { atrac: 1, desat: 1, carga: 1, entrega: 1 };
+
+// ======================
+// 3. FUNÇÕES PRINCIPAIS
+// ======================
+
+function openTab(evt, tabName) {
+    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+    document.querySelectorAll('.tab-button').forEach(tb => tb.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    evt.currentTarget.classList.add('active');
+    renderAllTables();
+}
+
+function renderAllTables() {
+    renderGenericTable('table-atracacoes', db.atracacoes, ['id', 'navio', 'data', 'status']);
+    renderGenericTable('table-desatracacoes', db.desatracacoes, ['id', 'navio', 'data', 'status']);
+    renderGenericTable('table-cargas', db.cargas, ['id', 'tipo', 'qtd', 'status']);
+    renderEntregas();
+    renderPedidosCentral();
+    renderBercos();
+}
+
+function renderGenericTable(tableId, dataArray, fields) {
+    const tbody = document.querySelector(`#${tableId} tbody`);
+    tbody.innerHTML = '';
+    dataArray.forEach(item => {
+        const row = document.createElement('tr');
+        fields.forEach(field => {
+            const cell = document.createElement('td');
+            cell.textContent = item[field];
+            if(field === 'status') {
+                cell.className = `status-${item[field].toLowerCase()}`;
+            }
+            row.appendChild(cell);
+        });
+        tbody.appendChild(row);
+    });
+}
+
+// ======================
+// 4. LÓGICA DA CENTRAL DE PEDIDOS
+// ======================
+let currentFilter = 'Todos';
+
+function filterOrders(status) {
+    currentFilter = status;
+    renderPedidosCentral();
+}
+
+function renderPedidosCentral() {
+    const tbody = document.querySelector('#table-pedidos tbody');
+    tbody.innerHTML = '';
+
+    let todosPedidos = [];
+    db.atracacoes.forEach(a => todosPedidos.push({ origemId: a.id, tipoOrigem: 'atracacoes', tipoTexto: 'Solicitação de Atracação', detalhes: `Navio: ${a.navio} | Data: ${a.data}`, status: a.status }));
+    db.desatracacoes.forEach(d => todosPedidos.push({ origemId: d.id, tipoOrigem: 'desatracacoes', tipoTexto: 'Solicitação de Saída', detalhes: `Navio: ${d.navio}`, status: d.status }));
+    db.cargas.forEach(c => todosPedidos.push({ origemId: c.id, tipoOrigem: 'cargas', tipoTexto: 'Registro de Carga', detalhes: `${c.tipo} (Qtd: ${c.qtd})`, status: c.status }));
+
+    todosPedidos.forEach(pedido => {
+        if (currentFilter !== 'Todos' && pedido.status !== currentFilter) return;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>#${pedido.tipoOrigem.substring(0,3).toUpperCase()}-${pedido.origemId}</td>
+            <td>${pedido.tipoTexto}</td>
+            <td>${pedido.detalhes}</td>
+            <td class="status-${pedido.status.toLowerCase()}">${pedido.status}</td>
+            <td>
+                ${pedido.status === 'Pendente' ? `
+                    <button style="color: #2ecc71;" onclick="processarPedido('${pedido.tipoOrigem}', ${pedido.origemId}, 'Aprovado')">✔ Aceitar</button>
+                    <button style="color: #e74c3c;" onclick="processarPedido('${pedido.tipoOrigem}', ${pedido.origemId}, 'Rejeitado')">✖ Rejeitar</button>
+                ` : `<span>Processado</span>`}
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function processarPedido(tipoOrigem, id, novoStatus) {
+    const item = db[tipoOrigem].find(i => i.id === id);
+    if (item) {
+        item.status = novoStatus;
+        alert(`Operação atualizada para: ${novoStatus}`);
+        renderAllTables();
+    }
+}
+
+// ======================
+// 5. EVENTOS E VALIDAÇÃO
+// ======================
+
+// Função auxiliar para validar se a data não é passada (proteção extra)
+function validarDataFutura(dataString) {
+    const dataSelecionada = new Date(dataString);
+    const agora = new Date();
+    if (dataSelecionada < agora) {
+        alert("Erro: Você não pode agendar uma data/hora no passado!");
+        return false;
+    }
+    return true;
+}
+
+document.getElementById('form-atracacoes').addEventListener('submit', e => {
+    e.preventDefault();
+    const data = document.getElementById('dataHoraAtracacao').value;
+    if(!validarDataFutura(data)) return;
+
+    db.atracacoes.push({ id: ids.atrac++, navio: document.getElementById('nomeEmbarcacao').value, data: data, status: 'Pendente' });
+    e.target.reset();
+    renderAllTables();
+    alert("Solicitação de Atracação enviada para a aba PEDIDOS.");
+});
+
+document.getElementById('form-desatracacoes').addEventListener('submit', e => {
+    e.preventDefault();
+    const data = document.getElementById('dataHoraDesatracacao').value;
+    if(!validarDataFutura(data)) return;
+
+    db.desatracacoes.push({ id: ids.desat++, navio: document.getElementById('nomeEmbarcacaoDes').value, data: data, status: 'Pendente' });
+    e.target.reset();
+    renderAllTables();
+    alert("Solicitação de Saída enviada para a aba PEDIDOS.");
+});
+
+document.getElementById('form-cargas').addEventListener('submit', e => {
+    e.preventDefault();
+    db.cargas.push({ id: ids.carga++, tipo: document.getElementById('tipoCarga').value, qtd: document.getElementById('quantidadeCarga').value, status: 'Pendente' });
+    e.target.reset();
+    renderAllTables();
+    alert("Registro de Carga enviado para aprovação em PEDIDOS.");
+});
+
+document.getElementById('form-entregas').addEventListener('submit', e => {
+    e.preventDefault();
+    const data = document.getElementById('dataHoraEntrega').value;
+    if(!validarDataFutura(data)) return;
+
+    db.entregas.push({ id: ids.entrega++, pedido: document.getElementById('numeroPedidoEntrega').value, data: data, status: 'Concluído' });
+    e.target.reset();
+    renderAllTables();
+});
+
+function renderEntregas() {
+    renderGenericTable('table-entregas', db.entregas, ['pedido', 'data', 'status']);
+}
+
+function ocuparBerco(btn, id) {
+    const berco = db.bercos.find(b => b.id === id);
+    if(berco.status === 'Disponível') {
+        const navio = prompt("Nome da embarcação:");
+        if(navio) {
+            berco.ocupante = navio;
+            berco.status = 'Ocupado';
+        }
+    } else {
+        berco.ocupante = '-';
+        berco.status = 'Disponível';
+    }
+    renderAllTables();
+}
+
+function renderBercos() {
+    const tbody = document.querySelector('#table-bercos tbody');
+    tbody.innerHTML = '';
+    db.bercos.forEach(b => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${b.nome}</td>
+            <td>${b.ocupante}</td>
+            <td>${b.status}</td>
+            <td><button onclick="ocuparBerco(this, ${b.id})">${b.status === 'Disponível' ? 'Ocupar' : 'Desocupar'}</button></td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// INICIALIZAÇÃO
+document.addEventListener('DOMContentLoaded', () => {
+    renderAllTables();
+    bloquearDatasPassadas(); // Aplica a restrição de data assim que a página carrega
+});
+</script>
+</div>
 {% endblock %}

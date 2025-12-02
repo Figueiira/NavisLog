@@ -108,7 +108,7 @@ header .logotipo img {
   left: 0;
   width: 254px;
   height: calc(100vh - 60px);
-  background-color: #4e5466;
+  background-color: #1a1a2e;
   color: white;
   z-index: 999;
   display: flex;
@@ -354,6 +354,39 @@ button.logout-btn:hover {
   color: #5caba3;
 }
 
+
+/*estilização do menu lateral do icone de perfil canto superior esquerdo da tela*/
+
+   .profile-menu {
+    position: fixed;
+    top: 50px; /* ajusta de acordo com o seu header */
+    right: -220px; /* fora da tela inicialmente */
+    width: 220px;
+    background-color: #2c4b58;
+    color: #eee;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s ease;
+    z-index: 1000;
+}
+
+.profile-menu a {
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #eee;
+    font-weight: 500;
+    border-bottom: 1px solid #2c4b58;
+    transition: background 0.2s;
+}
+
+.profile-menu a:hover {
+    background-color: #f0f0f0;
+    color: #2c4b58;
+}
+
+
 /* Texto no canto esquerdo */
 .description {
   max-width: 350px;
@@ -482,6 +515,9 @@ body {
   margin: 5px 10px;
 }
 
+
+/* ----------------------------- RESPONSIVIDADE ------------------------------*/
+
 @media (max-width: 768px) {
   .main-footer {
     margin-left: 0;
@@ -491,4 +527,284 @@ body {
     flex-direction: column;
     gap: 10px;
   }
+}
+
+
+
+/* ----------- TELAS ATÉ 1100px ----------- */
+@media (max-width: 1100px) {
+    .main {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 25px;
+        padding: 20px;
+    }
+
+    .card-img {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    header .nome {
+        font-size: 22px !important;
+    }
+
+    .search-bar input {
+        width: 180px !important;
+    }
+}
+
+/* ----------- TELAS ATÉ 800px (TABLETS / CELULARES GRANDES) ----------- */
+@media (max-width: 800px) {
+
+    header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .logotipo img {
+        width: 130px !important;
+    }
+
+    header .nome {
+        font-size: 20px !important;
+        text-align: center;
+    }
+
+    .search-bar input {
+        width: 75% !important;
+        max-width: 350px;
+    }
+
+    .profile i {
+        font-size: 22px !important;
+    }
+
+    /* 2 cards por linha */
+    .main {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px;
+    }
+
+    .ip-button1 {
+        font-size: 15px !important;
+        padding: 10px !important;
+    }
+}
+
+/* ----------- TELAS ATÉ 550px (CELULAR NORMAL) ----------- */
+@media (max-width: 550px) {
+
+    /* Sidebar esconde automaticamente se quiser */
+    .sidebar {
+        width: 170px !important;
+    }
+
+    header .nome {
+        font-size: 18px !important;
+    }
+
+    .search-bar input {
+        width: 90% !important;
+    }
+
+    /* Cards em 1 coluna */
+    .main {
+        grid-template-columns: 1fr !important;
+        padding: 10px;
+    }
+
+    .card {
+        width: 90% !important;
+        margin: auto;
+    }
+
+    .card-img {
+        height: 230px !important;
+    }
+
+    .ip-button1 {
+        width: 100% !important;
+        text-align: center;
+        font-size: 16px !important;
+    }
+}
+
+/* ----------- TELAS ATÉ 400px (TELA MUITO PEQUENA) ----------- */
+@media (max-width: 400px) {
+
+    .logotipo img {
+        width: 110px !important;
+    }
+
+    header .nome {
+        font-size: 16px !important;
+    }
+
+    .search-bar input {
+        width: 95% !important;
+        font-size: 14px !important;
+        padding: 8px !important;
+    }
+
+    .profile i {
+        font-size: 20px !important;
+    }
+
+    .card-img {
+        height: 200px !important;
+    }
+}
+
+/* ===========================
+   RESPONSIVIDADE - SOBRE.HTML
+   =========================== */
+
+/* Telas até 1024px */
+@media (max-width: 1024px) {
+
+    header {
+        flex-wrap: wrap;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .search-bar input {
+        width: 200px;
+    }
+
+    .content-page-wrapper {
+        padding: 40px;
+        width:700px !important;
+        max-width: 100% !important;
+        height: 1730px;
+        box-sizing: border-box;
+    }
+    body{
+      overflow-y: hidden;
+      overflow-x: hidden;
+    }
+}
+
+
+/* Telas até 768px */
+@media (max-width: 768px) {
+
+    header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .logotipo img {
+        width: 60px;
+    }
+
+    .nome {
+        font-size: 20px;
+    }
+
+    .search-bar input {
+        width: 180px;
+        font-size: 14px;
+    }
+
+    .profile {
+        font-size: 24px;
+        margin-top: 10px;
+    }
+
+    .sidebar {
+        width: 180px;
+        left: -190px;
+    }
+
+    .sidebar.show {
+        left: 0;
+    }
+
+    /* CORREÇÃO CRÍTICA DO LAYOUT MOBILE */
+    .main {
+        margin-left: 100px !important;
+        padding: 15px !important;
+        width: 100% !important;
+        display: block !important;
+        box-sizing: border-box !important;
+    }
+
+    .content-page-wrapper {
+        display: block;
+        width: 600px;
+        max-width: 100% !important;
+        margin: 100px !important;
+        padding: 15px !important;
+        box-sizing: border-box !important;
+    }
+
+    .content-page-wrapper h1 {
+        font-size: 22px;
+    }
+
+    .content-page-wrapper h2 {
+        font-size: 18px;
+    }
+
+    .content-page-wrapper p,
+    .content-page-wrapper ul li {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+}
+
+/* Telas até 480px */
+@media (max-width: 480px) {
+
+    header {
+        padding: 10px;
+        gap: 5px;
+    }
+
+    .logotipo img {
+        width: 50px;
+    }
+
+    .nome {
+        font-size: 18px;
+    }
+
+    .search-bar input {
+        width: 150px;
+    }
+
+    .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 10px !important;
+        box-sizing: border-box;
+    }
+
+    .content-page-wrapper {
+        padding: 10px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+        display: block !important;
+    }
+
+    .content-page-wrapper h1 {
+        font-size: 20px;
+    }
+
+    .content-page-wrapper h2 {
+        font-size: 17px;
+    }
+
+    footer .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+        padding: 10px;
+    }
 }

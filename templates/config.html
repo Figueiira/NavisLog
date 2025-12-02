@@ -1,20 +1,464 @@
 {% extends "base.html" %}
-{% block title %}Bem-vindo - NavisLog{% endblock %}
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+{% block title %}Configurações do Sistema - NavisLog{% endblock %}
+
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurações</title>
-</head>
-<body>
-    
-    <h1>PAGINA DE CONFIGURAÇÕES</h1>
+<style>
+    /* ---------------------------------------------------------------- */
+    /* VARIAVEIS CSS PARA TEMAS */
+    /* ---------------------------------------------------------------- */
+    :root {
+        --bg-color: #f4f4f9; /* Fundo principal claro */
+        --card-bg: rgba(131, 130, 130, 0.658); /* Fundo dos cartões */
+        --text-color: #000000; /* Texto principal escuro */
+        --secondary-text: #000000; /* Texto secundário */
+        --border-color: #eee;
+        --nav-active-bg: #e6f0ff;
+        --input-bg: white;
+    }
 
-</body>
-</html>
+    /* Tema Escuro (DARK MODE) */
+    .dark-mode {
+        --bg-color: #1a1a2e; /* Fundo principal escuro */
+        --card-bg: #2c3850; /* Fundo dos cartões escuros */
+        --text-color: #ecf0f1; /* Texto principal claro */
+        --secondary-text: #bdc3c7; /* Texto secundário claro */
+        --border-color: #3f4a64;
+        --nav-active-bg: #3f4a64;
+        --input-bg: #1a1a2e;
+    }
+
+    /* Aplica as variáveis a todos os elementos relevantes */
+    body {
+        background-color: var(--bg-color); /* Aplica ao fundo */
+        color: var(--text-color); /* Aplica à cor do texto global */
+        transition: background-color 0.3s, color 0.3s; /* Transição suave */
+        margin: 0;
+    }
+    
+    /* Layout Principal */
+    .settings-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .page-header {
+        margin-bottom: 30px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 15px;
+    }
+
+    .page-header h1 {
+        font-size: 28px;
+        /* CORRIGIDO: Deve usar a variável */
+        color: var(--text-color); 
+        margin: 0;
+    }
+
+    .page-header p {
+        color: var(--secondary-text);
+        margin-top: 5px;
+    }
+
+    /* ---------------------------------------------------------------- */
+    /* LAYOUT: FLEXBOX RESPONSIVO PARA EMPILHAMENTO DE CARDS */
+    /* ---------------------------------------------------------------- */
+    .settings-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+
+    /* Definição de Largura dos Cartões */
+    .settings-card,
+    .settings-nav-card {
+        flex: 1 1 calc(50% - 15px); 
+        min-width: 300px; 
+    }
+    
+    /* Cartão de Navegação (Menu Lateral transformado em Card) */
+    .settings-nav-card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        padding: 30px;
+        order: -1;
+    }
+
+    .settings-nav-card h2 {
+        font-size: 20px;
+        /* CORRIGIDO: Deve usar a variável */
+        color: var(--text-color);
+        margin-bottom: 25px;
+    }
+
+    .settings-nav-links {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .settings-nav-links a {
+        padding: 12px 15px;
+        color: var(--secondary-text);
+        text-decoration: none;
+        border-radius: 8px;
+        margin-bottom: 5px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+    .settings-nav-links a:hover, .settings-nav-links a.active {
+        background-color: var(--nav-active-bg);
+        color: var(--text-color);
+    }
+
+    .settings-nav-links i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+    }
+
+    /* Cartões de Conteúdo Padrão */
+    .settings-card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        padding: 30px;
+    }
+
+    .settings-card h2 {
+        font-size: 20px;
+        /* CORRIGIDO: Deve usar a variável */
+        color: var(--text-color);
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    /* Elementos de Formulário UI */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        color: var(--text-color);
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 14px;
+        transition: border-color 0.3s;
+        appearance: none;
+        background-color: var(--input-bg); 
+        color: var(--text-color); 
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path d="M10 4L6 8L2 4z" fill="%236c757d"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        padding-right: 30px;
+    }
+    
+    .form-control:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    }
+
+    .btn-save {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.3s;
+    }
+
+    .btn-save:hover {
+        background-color: #0056b3;
+    }
+
+    /* Toggle Switch */
+    .switch-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .switch-wrapper:last-of-type {
+        border-bottom: none;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 26px;
+    }
+
+    .switch input { 
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+    input:checked + .slider {
+        background-color: #2ecc71;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(24px);
+    }
+    
+    /* Media Query para garantir empilhamento em telas pequenas */
+    @media (max-width: 650px) {
+        .settings-card,
+        .settings-nav-card {
+            flex: 1 1 100%;
+            min-width: 100%;
+        }
+    }
+</style>
+
+<header>
+    <div class="logotipo">
+        <a href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='images/logotipo.png') }}" alt="Logo"/>
+        </a>
+    </div>
+</header><br><br>
+
+<div class="settings-container">
+    
+    <div class="page-header">
+        <h1 style="color: #000000;">⚙️ Configurações do Sistema</h1>
+        <p style="color: #000000;">Ajuste as preferências de visualização, idioma e notificações globais do NavisLog.</p>
+    </div>
+
+    <div class="settings-grid">
+        
+        <div class="settings-nav-card" id="navegacao">
+            <h2>Navegação Rápida</h2>
+            <div class="settings-nav-links">
+                <a href="#aparencia" class="active"><i class="fa-solid fa-paintbrush"></i> Aparência</a>
+                <a href="#gerais"><i class="fa-solid fa-globe"></i> Preferências Gerais</a>
+                <a href="#notificacoes"><i class="fa-solid fa-bell"></i> Notificações</a>
+                <a href="#backup"><i class="fa-solid fa-cloud-arrow-up"></i> Dados e Backup</a>
+            </div>
+        </div>
+
+        <div class="settings-card" id="aparencia">
+            <h2>Aparência e Tema</h2>
+            
+            <form onsubmit="event.preventDefault(); return false;"> 
+                <div class="form-group">
+                    <label>Tema da Interface</label>
+                    <select name="tema" class="form-control" id="theme-select">
+                        <option value="claro">🌞 Claro (Padrão)</option>
+                        <option value="escuro">🌙 Escuro</option>
+                        <option value="auto">💻 Seguir Configuração do Sistema Operacional</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Densidade de Informação</label>
+                    <select name="densidade" class="form-control">
+                        <option value="normal">Padrão</option>
+                        <option value="compacta">Compacta (Mais informações por tela)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-save">Salvar Aparência</button>
+            </form>
+        </div>
+
+        <div class="settings-card" id="gerais">
+            <h2>Preferências Gerais</h2>
+            
+            <form onsubmit="event.preventDefault(); return false;"> 
+                <div class="form-group">
+                    <label>Idioma do Sistema</label>
+                    <select name="idioma" class="form-control">
+                        <option value="pt">Português (Brasil)</option>
+                        <option value="en">Inglês (EUA)</option>
+                        <option value="es">Espanhol</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Fuso Horário</label>
+                    <select name="fuso" class="form-control">
+                        <option value="-04">GMT-04:00 (Manaus, Amazonas)</option>
+                        <option value="-03">GMT-03:00 (Brasília)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-save">Salvar Configurações Gerais</button>
+            </form>
+        </div>
+
+        <div class="settings-card" id="notificacoes">
+            <h2>Configurações de Notificações</h2>
+            
+            <p style="font-size: 14px; color: var(--secondary-text); margin-bottom: 20px;">Selecione como você deseja receber alertas sobre as operações navais.</p>
+
+            <div class="switch-wrapper">
+                <div>
+                    <strong style="display:block; color:var(--text-color)">Notificações por E-mail</strong>
+                    <span style="font-size:13px; color:var(--secondary-text)">Receber alertas de atraso e conclusão de operação.</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="switch-wrapper">
+                <div>
+                    <strong style="display:block; color:var(--text-color)">Notificações Push no App/Browser</strong>
+                    <span style="font-size:13px; color:var(--secondary-text)">Alertas visuais e sonoros dentro do sistema NavisLog.</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="switch-wrapper">
+                <div>
+                    <strong style="display:block; color:var(--text-color)">Sons de Alerta</strong>
+                    <span style="font-size:13px; color:var(--secondary-text)">Reproduzir som ao receber uma notificação crítica.</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        
+         <div class="settings-card" id="backup">
+            <h2>Dados e Backup</h2>
+            
+            <div class="switch-wrapper">
+                <div>
+                    <strong style="display:block; color:var(--text-color)">Backup Automático</strong>
+                    <span style="font-size:13px; color:var(--secondary-text)">Realizar backup dos dados de rotas diariamente.</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+             <div class="switch-wrapper">
+                <div>
+                    <strong style="display:block; color:var(--text-color)">Excluir Histórico Antigo</strong>
+                    <span style="font-size:13px; color:var(--secondary-text)">Remover registros de operações com mais de 2 anos.</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <button type="submit" class="btn-save" style="background-color: #e74c3c; margin-top: 20px;">Limpar Cache (12MB)</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // ----------------------------------------------------
+    // SCRIPT DE TROCA DE TEMA (DARK/LIGHT MODE)
+    // ----------------------------------------------------
+    const themeSelect = document.getElementById('theme-select');
+    const body = document.body;
+
+    // Função principal para aplicar o tema
+    function applyTheme(theme) {
+        if (theme === 'escuro') {
+            body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'escuro');
+        } else if (theme === 'claro') {
+            body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'claro');
+        } else if (theme === 'auto') {
+            // Verifica a preferência do sistema operacional
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                 body.classList.add('dark-mode');
+            } else {
+                 body.classList.remove('dark-mode');
+            }
+            localStorage.setItem('theme', 'auto');
+        }
+    }
+
+    // 1. Carregar o tema salvo ou o tema padrão
+    const savedTheme = localStorage.getItem('theme') || 'claro';
+    // Se o tema salvo for 'auto', verifique as preferências do sistema imediatamente
+    if (savedTheme === 'auto') {
+        applyTheme('auto'); 
+    } else {
+        applyTheme(savedTheme); 
+    }
+    // Seta o valor no select 
+    themeSelect.value = savedTheme;
+
+    // 2. Ouvinte de eventos para mudar o tema
+    themeSelect.addEventListener('change', (event) => {
+        applyTheme(event.target.value);
+    });
+
+    // ----------------------------------------------------
+    // SCRIPT PARA NAVEGAÇÃO POR ÂNCORA (HASH) NO MENU
+    // ----------------------------------------------------
+    document.querySelectorAll('.settings-nav-links a').forEach(item => {
+        item.addEventListener('click', () => {
+            // Remove a classe 'active' de todos
+            document.querySelectorAll('.settings-nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            // Adiciona a classe 'active' ao clicado
+            item.classList.add('active');
+        });
+    });
+</script>
+
 {% endblock %}

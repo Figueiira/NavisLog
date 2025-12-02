@@ -14,16 +14,23 @@
         <input type="search" name="search-bar" id="sb" placeholder="⌕ Pesquisar..." autocomplete="off">
     </div>
 
-    <div class="profile" onclick="toggleProfile()">
-        <i class="fa-solid fa-user"></i>
+    <div class="profile" onclick="toggleProfile()" id="perfil_usuario">
+        <i class="fa-solid fa-user" style="margin-top: 12px;"></i>
     </div>
 </header>
+
+<!-- Menu lateral do perfil -->
+<div id="profile-menu" class="profile-menu">
+    <a href="{{ url_for('configuracoes') }}">⚙️ Configurações</a>
+    <a href="{{ url_for('profile') }}">👤 Acessar Perfil</a>
+    <a href="{{ url_for('alterar_senha') }}">🔒 Alterar Senha</a>
+</div>
 
 <!-- Menu lateral -->
 <div class="sidebar" id="sidebar">
     <a href="#">🏠 Início</a>
     <a href="{{ url_for('operacoes') }}">📦 Operações</a>
-    <a href="#">🚚 Entregas</a>
+    <a href="{{ url_for('operacoes') }}">🚚 Entregas</a>
     <a href="{{ url_for('info') }}">📊 Relatórios</a>
     <a href="{{ url_for('configuracoes') }}">⚙️ Configurações</a>
     <a href="{{ url_for('ajuda') }}">🛠️ Suporte</a>
@@ -99,7 +106,8 @@ function buscar(texto, redirecionar=false) {
         "controle pedidos": "controle_pedidos",
 
         "cargas": "controle_cargas",
-        "controle cargas": "controle_cargas"
+        "controle cargas": "controle_cargas",
+        "perfil": "perfil_usuario"
     };
 
     // Mapa das palavras → rotas Flask
@@ -122,7 +130,8 @@ function buscar(texto, redirecionar=false) {
         "controle pedidos": "{{ url_for('operacoes') }}",
 
         "cargas": "{{ url_for('operacoes') }}",
-        "controle cargas": "{{ url_for('operacoes') }}"
+        "controle cargas": "{{ url_for('operacoes') }}",
+        "perfil": "{{ url_for('profile') }}"
     };
 
     // Se encontrou card → scroll
@@ -151,7 +160,45 @@ barra.addEventListener("keydown", function (e) {
         buscar(this.value, true);
     }
 });
+
+
+
+
+
+//// TESTE DO MENU DROP-DOWN////
+
+const profileMenu = document.getElementById("profile-menu");
+
+function toggleProfile() {
+    if (profileMenu.style.right === "0px") {
+        profileMenu.style.right = "-220px"; // esconde
+    } else {
+        profileMenu.style.right = "0px"; // mostra
+    }
+}
+
+// Fecha o menu se clicar fora dele
+document.addEventListener("click", function(event) {
+    const isClickInside = profileMenu.contains(event.target) || event.target.closest('.profile');
+    if (!isClickInside) {
+        profileMenu.style.right = "-220px";
+    }
+});
+
 </script>
+
+<footer class="main-footer">
+  <div class="footer-content">
+    <span>Email para contato: 
+        <a href="mailto:tiagocaribean@gmail.com" 
+          style="color: rgb(238, 147, 11); cursor: pointer; transition: all 0.5s ease-in;">
+            tiagocaribean@gmail.com
+        </a>
+    </span>
+    <span>CNPJ: 56.216.638/0001-00</span>
+    <span>Telefone: (92) 9 9999-9999</span>
+  </div>
+</footer>
 
 
 {% endblock %}
