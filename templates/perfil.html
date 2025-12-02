@@ -1,0 +1,366 @@
+{% extends "base.html" %}
+{% block title %}Perfil de Usuário - NavisLog{% endblock %}
+
+{% block content %}
+
+{# ----------------------- NOVO HEADER (TOPO DA PÁGINA) ----------------------- #}
+<br><header class="app-header">
+    <div class="logotipo-nome-container">
+        <div class="logotipo">
+            <img src="{{ url_for('static', filename='images/logotipo.png') }}" alt="Logo" />
+        </div>
+        <div class="nome">NavisLog</div>
+    </div>
+
+    {# === AVATAR MOVIDO PARA O CANTO SUPERIOR DIREITO === #}
+    <div class="profile-header-avatar">
+        <div class="profile-avatar-container">
+            <img id="profile-avatar-img" src="{{ url_for('static', filename='images/' + (user.avatar_url or 'default_avatar.png')) }}" alt="Avatar do Usuário" class="profile-avatar">
+            
+            {# Formulário e Script mantidos #}
+            <form id="avatar-upload-form" method="POST" action="{{ url_for('upload_avatar') }}" enctype="multipart/form-data" style="display: none;">
+                <input type="file" name="avatar_file" id="avatar-input" accept="image/*">
+            </form>
+            <span class="avatar-edit-icon" id="change-avatar-button">
+                <i class="fas fa-camera"></i>
+            </span>
+        </div>
+    </div>
+</header>
+{# ----------------------------------------------------------------------------- #}
+
+<div class="main-profile-container">
+
+    <div class="user-greeting-section">
+        {# Puxando dados do objeto 'user' do Flask #}
+        <h1>Olá, {{ user.nome or 'Usuário' }}!</h1>
+        <p class="user-role">{{ user.cargo or 'Função não definida' }}</p>
+    </div>
+
+    <div class="profile-content-grid">
+        
+        {# === Seção de Informações de Contato === #}
+        <div class="info-card">
+            <h2><i class="fas fa-info-circle"></i> Informações de Contato</h2>
+            <table>
+                <tr>
+                    <td>Nome Completo:</td>
+                    <td>**{{ user.nome_completo or 'N/A' }}**</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>**{{ user.email or 'N/A' }}**</td>
+                </tr>
+                <tr>
+                    <td>Telefone:</td>
+                    <td>**{{ user.telefone or 'N/A' }}**</td>
+                </tr>
+                <tr>
+                    <td>CNPJ/CPF:</td>
+                    <td>**{{ user.cnpj_cpf or 'N/A' }}**</td>
+                </tr>
+            </table>
+        </div>
+
+        {# === Seção de Configurações da Conta === #}
+        <div class="info-card account-settings">
+            <h2><i class="fas fa-cog"></i> Configurações da Conta</h2>
+            <ul>
+                <li>
+                    <a href="{{ url_for('configuracoes') }}">
+                        <i class="fas fa-sliders-h"></i> Gerenciar Preferências de Exibição
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('alterar_senha') }}">
+                        <i class="fas fa-lock"></i> Alterar Senha
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('editar_perfil') }}" class="button-link primary-button" style="color: black;">
+                        <i class="fas fa-user-edit" style="color: black; text-align: left; align-items: flex-end ;"></i><label style="color: black;"> Editar informações do Perfil</label>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        {# === Seção de Estatísticas (Exemplo) === #}
+        <div class="info-card stats-summary">
+            <h2><i class="fas fa-chart-line"></i> Resumo de Atividades</h2>
+            <div class="stat-boxes">
+                <div class="stat-box">
+                    <span class="stat-number">{{ user.embarcacoes_cadastradas or 0 }}</span>
+                    <p>Embarcações Cadastradas</p>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">{{ user.operacoes_agendadas or 0 }}</span>
+                    <p>Operações Agendadas (Mês)</p>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">{{ user.relatorios_gerados or 0 }}</span>
+                    <p>Relatórios Acessados</p>
+                </div>
+            </div>
+        </div>
+        
+        {# === Seção de Acesso (Exemplo) === #}
+        <div class="info-card access-info">
+            <h2><i class="fas fa-shield-alt"></i> Informações de Acesso</h2>
+            <p><strong>Nível de Acesso:</strong> {{ user.nivel_acesso or 'Padrão' }}</p>
+            <p><strong>Membro Desde:</strong> {{ user.membro_desde.strftime('%d/%m/%Y') or 'N/A' }}</p>
+            <p><strong>Último Login:</strong> {{ user.ultimo_login.strftime('%H:%M - %d/%m/%Y') or 'N/A' }}</p>
+        </div>
+
+    </div>
+    
+    <div class="profile-actions">
+        <a href="{{ url_for('logout') }}" class="button-link logout-button"><i class="fas fa-sign-out-alt"></i> Sair</a>
+    </div>
+
+</div>
+
+{# ================================================================= #}
+{# SCRIPT PARA O UPLOAD DO AVATAR #}
+<script>
+    document.getElementById('change-avatar-button').addEventListener('click', function() {
+        document.getElementById('avatar-input').click();
+    });
+
+    document.getElementById('avatar-input').addEventListener('change', function() {
+        if (this.files.length > 0) {
+            document.getElementById('avatar-upload-form').submit();
+        }
+    });
+</script>
+{# ================================================================= #}
+
+
+<style>
+    /* ------------------------------------------------------------- */
+    /* CSS FOCADO APENAS EM LAYOUT E UI, MANTENDO SUAS CORES */
+    /* ------------------------------------------------------------- */
+
+/* Novo Header com Flexbox: Avatar no canto superior direito */
+.app-header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 5px 40px; 
+    background-color:#ffff; 
+    color: #172b66;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 4);
+    position: absolute; 
+    top: 0;
+    z-index: 1000;
+    height: 80px;
+}
+
+.logotipo-nome-container {
+    display: flex;
+    align-items: center;
+}
+
+.logotipo img {
+    height: 40px; 
+    margin-right: 15px;
+    position: absolute;
+    top: 10px;
+}
+
+.nome {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/* ----------------------- Layout do Perfil Principal ----------------------- */
+.main-profile-container {
+    max-width: 1200px;
+    margin: 50px auto 100px auto;
+    padding: 20px;
+    background-color: #ffffff; 
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.user-greeting-section {
+    text-align: left; 
+    padding-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 30px;
+}
+
+.user-greeting-section h1 {
+    font-size: 2.2em;
+    color: #333; 
+    margin-bottom: 5px;
+}
+
+.user-role {
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* ----------------------- Container do Avatar ----------------------- */
+.profile-header-avatar {
+    padding: 0; 
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.profile-avatar-container {
+    position: relative;
+    display: block; 
+    margin-bottom: 5px;
+}
+
+.profile-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #007bff; 
+}
+
+.avatar-edit-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #007bff; 
+    color: white;
+    border-radius: 50%;
+    width: 20px; 
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    font-size: 0.7em;
+}
+
+/* ----------------------- Layout em Grid (Cards) ----------------------- */
+.profile-content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.info-card {
+    background: #2c4b58; 
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 5px solid #007bff; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    color: #fff; 
+}
+.info-card td {
+    color: #ffc107;
+}
+.info-card h2 {
+    font-size: 1.3em;
+    color: #007bff; 
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #777; 
+    padding-bottom: 10px;
+}
+
+.info-card table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.info-card td:first-child {
+    color: #fff; 
+    padding-right: 15px;
+    font-weight: 300;
+}
+.info-card td:last-child {
+    color: #ffc107; 
+    font-weight: bold;
+}
+
+/* Configurações da Conta (Lista de Links) */
+.account-settings ul {
+    list-style: none;
+    padding: 0;
+}
+.account-settings li {
+    margin-bottom: 10px;
+}
+.account-settings a {
+    display: block;
+    padding: 10px;
+    background: #fff; 
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333; 
+    transition: background-color 0.3s, color 0.3s;
+}
+.account-settings a:hover {
+    background-color: #e9ecef;
+}
+.primary-button {
+    background-color: #28a745; 
+    color: white !important; 
+    border-color: #28a745;
+    text-align: center;
+    margin-top: 15px;
+}
+.primary-button:hover {
+    background-color: #218838;
+}
+
+/* Resumo de Estatísticas */
+.stat-boxes {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    border-radius: 4px; 
+    overflow: hidden;
+    background-color: #3f6575; /* UI: Tom sutilmente diferente para destaque */
+}
+.stat-box {
+    flex-grow: 1;
+    padding: 10px;
+    border-right: 1px solid #4f7d90; /* UI: Borda interna */
+}
+.stat-box:last-child {
+    border-right: none;
+}
+.stat-number {
+    display: block;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #ffc107; /* Mantendo sua cor (amarelo/laranja) */
+}
+.stat-box p {
+    margin: 0;
+    color: #fff; /* UI: Garante visibilidade do texto */
+    font-size: 0.9em;
+}
+
+/* Ações Finais (Sair) */
+.profile-actions {
+    text-align: right; /* UI: Ação final alinhada à direita */
+    margin-top: 30px;
+}
+.logout-button {
+    display: inline-block;
+    padding: 10px 30px;
+    margin-top: 20px;
+    background-color: #dc3545; /* Mantendo sua cor (vermelho) */
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.logout-button:hover {
+    background-color: #c82333;
+}
+</style>
+{% endblock %}

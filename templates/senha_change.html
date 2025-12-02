@@ -1,0 +1,29 @@
+{% if etapa == 'enviar' %}
+  <form method="POST">
+    <input type="hidden" name="etapa" value="enviar_codigo">
+    <button type="submit">Enviar Código para Email</button>
+  </form>
+{% elif etapa == 'verificar' %}
+  <form method="POST">
+    <input type="hidden" name="etapa" value="verificar">
+    <label>Código recebido:</label>
+    <input type="text" name="codigo" required>
+    <label>Nova senha:</label>
+    <input type="password" name="nova_senha" required>
+    <button type="submit">Alterar Senha</button>
+  </form>
+
+  <!-- Botão para reenviar código -->
+  <form method="POST" style="margin-top:10px;">
+    <input type="hidden" name="etapa" value="enviar_codigo">
+    <button type="submit">Reenviar Código</button>
+  </form>
+{% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}

@@ -1,20 +1,123 @@
 {% extends "base.html" %}
-{% block title %}Bem-vindo - NavisLog{% endblock %}
+{% block title %}Suporte - NavisLog{% endblock %}
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar uma embarcação</title>
-</head>
-<body>
-    
-    <h1>PÁGINA DE CADASTRO DE EMBARCAÇÕES</h1>
+<div class="support-container">
 
-</body>
-</html>
+    <h1 class="support-title">Formulário de Cadastro de Embarcações - NavisLog</h1>
+    <p class="support-subtitle">
+        Preencha o formulário abaixo para cadastrar novas embarcações
+    </p>
+
+    <form action="{{ url_for('enviar_suporte') }}" method="POST" enctype="multipart/form-data" class="support-form">
+
+        <label>Nome da embarcação *</label>
+        <input type="text" name="nome" required>
+
+        <label>Matrícula</label>
+        <input type="number" name="matricula" required>
+
+        <label>Nacionalidade</label>
+        <input type="text" name="País de origem" required>
+
+        <label>Tipo de embarcação</label>
+        <select name="tipo" required>
+            <option value="" disabled selected>Selecione</option>
+            <option>Navio Cargueiro</option>
+            <option>Balsa</option>
+            <option>Navio Rebocador</option>
+            <option>Navio Cruzeiro</option>
+            <option>Navio Tanque</option>
+            <option>Porta Aviões</option>
+            <option>Navio de Pesquisas</option>
+            <option>Navio Encouraçado</option>
+            <option>Navio Militar</option>
+            <option>Navio Ro-Ro</option>
+            <option>Navio Bulk Carriers</option>
+            <option>Navio Ferry Boat</option>
+        </select>
+
+        <label> Peso da Embarcação vázia:
+            <input type="number" name="matricula" required maxlength="100">
+        </label>
+        <label>Peso Total da Embarcação com Cargas:
+            <input type="number" name="matricula" required maxlength="100">
+        </label>
+        <label>Capacidade Máxima de Tripulação/Passageiros:
+            <input type="number" name="matricula" required maxlength="100">
+        </label>
+        <label>Nome Completo do Comandante:
+            <input type="name" name="nome" required maxlength="100">
+        </label>
+        <label>Matrícula Naval do Comandante:
+            <input type="text" name="matriculaComandante" required maxlength="100">
+        </label>
+
+        <label>Anexar foto da embarcação</label>
+        <input type="file" name="arquivo" accept="image">
+
+        <button type="submit" class="support-btn">Cadastrar Embarcação</button>
+
+    </form>
+
+</div>
+
+<style>
+    .support-container {
+        width: 60%;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0px 0px 12px rgba(0,0,0,0.1);
+    }
+
+    .support-title {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .support-subtitle {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #555;
+    }
+
+    .support-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    input, select, textarea {
+        padding: 10px;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .support-btn {
+        margin-top: 20px;
+        padding: 12px;
+        font-size: 18px;
+        background-color: #2869ff;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .support-btn:hover {
+        background-color: #1a4fcc;
+    }
+</style>
+
 {% endblock %}
